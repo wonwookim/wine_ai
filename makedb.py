@@ -24,15 +24,17 @@ docs = loader.load()
 
 # 임베딩 모델
 from langchain_openai import OpenAIEmbeddings
-embedding = OpenAIEmbeddings(model = os.environ['OPENAI_EMBEDDING_MODEL'])
+embedding = OpenAIEmbeddings(
+    model = os.environ['OPENAI_EMBEDDING_MODEL'], 
+    api_key = os.environ['OPENAI_API_KEY'])
 
 # csv 파일 벡터화 & 저장
-from langchain_pinecone import PinconeVectorStore
-BATCH_SIZE = 300
+from langchain_pinecone import PineconeVectorStore
+BATCH_SIZE = 300 # chunk 개념으로 받아들이면 됨 -> 300개의 문장을 1개의 청크로 보면 됨
 for i in range(0, len(docs), BATCH_SIZE):
     batch = docs[i: i + BATCH_SIZE]
     try:
-        PinconeVectorStore.from_documents(
+        PineconeVectorStore.from_documents(
             documents = batch,
             index_name = os.environ['PINECONE_INDEX_NAME'],
             embedding = embedding
