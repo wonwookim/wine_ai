@@ -37,3 +37,7 @@ for i in range(0, len(docs), BATCH_SIZE):
             index_name = os.environ['PINECONE_INDEX_NAME'],
             embedding = embedding
         )
+        print(f'{i} ~ {i + len(batch) - 1} documents indexed')
+    except Exception as e:
+        print(f'{i} ~ {i + len(batch) - 1} error: {e}')
+        
