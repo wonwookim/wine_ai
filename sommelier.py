@@ -9,15 +9,16 @@ from langchain_pinecone import PineconeVectorStore
 load_dotenv()
 
 llm = ChatOpenAI(model = os.environ['OPENAI_LLM_MODEL'], temperature = 0.2)
-embeddings = OpenAIEmbeddings(model = os.environ['OPENAI_EMBEDDING_MODEL'])
+embeddings = OpenAIEmbeddings(model=os.environ['OPENAI_EMBEDDING_MODEL'])
 vector_store = PineconeVectorStore(
-    index = os.environ['PINECONE_INDEX_NAME'],
-    embeddings = embeddings,
+    index_name= os.environ['PINECONE_INDEX_NAME'],
+    embedding=embeddings,
     pinecone_api_key = os.environ['PINECONE_API_KEY']
 )
 
 # 이미지에서 정보 추출
 def describe_dish_flavor(img_bytes, query):
+  
    data_url = f'data:image/jpeg;base64,{img_bytes}'
    message = [
        {'role': 'system', 
